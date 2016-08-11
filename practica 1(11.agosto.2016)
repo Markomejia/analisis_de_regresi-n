@@ -1,0 +1,23 @@
+sample(10000, 35)     #una muestra de 35 de datos hasta el 10000#
+
+#vamos  crear una pequeña base de datos#
+# 4 variables: nombre, edad, sexo y tipo de educación#
+nombres <- c("sergio","alan","betzabeth","judith","rodrigo","eric","diego","angel")
+edad    <- c(36,20,23,20,21,21,22,21)
+sexo    <-c("hombre","hombre","mujer","mujer","hombre","hombre","hombre","hombre")
+teduca  <-c("pública","pública","pública","pública","privada","pública","pública","pública")
+## generamos una base de datos en forma de matriz
+base1<-matrix(c(edad,nombres,sexo,teduca))
+##  creamos una base con data frame
+base1.1 <- data.frame(edad,nombres,sexo,teduca)
+##vamos a utilizar la función table
+##la función table se utiliza pra conocer la frecuencia de las variable
+table(base1.1$edad)
+table(base1.1$sexo)
+#attach sirve para condicionar todos los comando a solo una base 
+attach(base1.1)
+table(edad)
+#detach sirve para dejar de condicionar todos los comando para solo una base
+detach(base1.1)
+#sirve para sacar datos estadisticos descriptivos basicos de una base de datos
+summary(base1.1$edad)
