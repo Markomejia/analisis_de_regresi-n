@@ -21,3 +21,12 @@ table(edad)
 detach(base1.1)
 #sirve para sacar datos estadisticos descriptivos basicos de una base de datos
 summary(base1.1$edad)
+#importar base de datos
+## con el paquete foreing
+install.packages("foreign")
+#utilizar el paquete descargado
+require(foreign)
+##crear un viculo de r para jalar la base de datos
+sociodem <- read.dbf ("C://Users//SALA-C22//Desktop//SDEMT215.dbf")
+#solicitar la frecuencia de los sexos de la nuev base de datos
+table(sociodem$SEX)
