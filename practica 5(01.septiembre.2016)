@@ -1,0 +1,39 @@
+#crear un vector con las estaturas y otro con el nivel economico registrado
+estaturas<- c(1.2,1.23,1.19,1.32,1.28,1.22,1.17,1.29,1.33,1.15)
+ingreso<-c(110,130,108,167,156,115,104,138,170,107)
+
+#crear un diagrama de disperción cmo primer paso para ver la relación
+plot(ingreso,estaturas, pch = 14, xlab = "ingreso economico", ylab = "estatura", main = "grafica de disperción")
+
+#una ves viendo la grafica de disperción podemos saber si se puede implementar una recta
+#ahora se obtiene la correlación de las variables 
+cor(estaturas,ingreso, method = "pearson")
+help("cor")
+
+#argumento
+#variable independiente
+#variable dependiente
+#metodo
+
+#aplicar una prueba a la correlación para ver que tan confiable es
+cor.test(estaturas,ingreso,method = "pearson")
+
+#como p-value vale 0.00001607 y es menos a .05 entonces rechazamos la H0 que proponia que no existia relación alguna
+
+#despues aplicamos un modelo y para eso utlizamos la fn. lm()
+
+modelo<- lm(estaturas~ingreso)
+summary(modelo)
+
+# los reciduales nos generan las dif. entre los valores ajustados y los valores reales en los resultados tenemos los coef. que contienen
+#que expone si los coef. son significativos 
+
+
+#graficamos la recta ajustada
+abline(modelo)
+
+
+estaturas=.9323692+.0023420*ingreso
+
+
+
