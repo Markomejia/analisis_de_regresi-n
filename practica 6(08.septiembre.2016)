@@ -1,0 +1,43 @@
+####################################################################################################################################################
+
+summary(modelo)$coefficients
+
+#obtenemos un ajuste
+estaturas=.9323692+.0023420*ingreso
+
+summary(modelo)
+
+#decimos que tenemos una relación positiva
+#por cada pesodel ingreso que aumenta el padre o la madre aumenta la estatura en .0023
+#el error estadar residual es .0198  es muy importante por que nos permite saber la calidad del modelo
+#con el error generamos los intervalos de confianza 
+#se calcula con la siguient función
+confint(modelo, level = .95)
+# con la probabilidad de 95% b0 se encuentra en el intervalo de (.8542 ,1.0105)
+#y b1 se encuentra en el intervalo (0.001753, 0.002930)
+
+#Bondad de ajuste
+#con esta bondad de ajuste verificamos la calidad del modelo y al interpretar la variable se utiliza la tabla anova
+ anova(modelo)
+ 
+ #en este caso la variabilidad der este modelo es de .033022=SSM
+ #se revisa SSR=0.003138
+ #revisamdo los valores del summary el estadistico F es mayor a 1 y p-value < .05
+ #con estas revisiones se puede mencionar que se rechaza
+ #la hipotesis nula de F=1
+ #y se puede establecer un modelo
+ 
+ 
+ 
+#revisar r^2 multiple
+ #alrededor del 91% de la variabilidad de la estatura
+ #es explicada por la ecta de ajuste
+ 
+ summary(modelo)
+
+ ######supuestos########
+ 
+ base1 <- data.frame(ingreso,estaturas)
+ base1$fitted.modleo<-fitted(modelo)
+ base1$residuals.modelo<-residuals(modelo)
+ base1$rstudent.modelo<-rstudent(modelo)
