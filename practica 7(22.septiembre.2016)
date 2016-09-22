@@ -1,0 +1,78 @@
+install.packages("car")
+
+estaturas<- c(1.2,1.23,1.19,1.32,1.28,1.22,1.17,1.29,1.33,1.15)
+ingreso<-c(110,130,108,167,156,115,104,138,170,107)
+modelo<- lm(estaturas~ingreso)
+
+base1 <- data.frame(ingreso,estaturas) 
+
+base1$ajuste.modelo<-fitted(modelo)#valores ajustados (y gorrito)
+base1$residuals.modelo<-residuals(modelo)#residuos del modelo (yi-yigorrito=ei)
+base1$rstudent.modelo<-rstudent(modelo)#residuos estandarizados
+View(base1)
+
+#estas variables se utilizan para comprobar los supuestos
+#supuesto de normalidad...... es que los residuos tengan una distribución normal
+#para conocer la normalidad se utiliza la prueba de shaapiro para analizar los residuos
+shapiro.test(base1$rstudent.modelo)
+
+
+#prueba de hipotesis shapitro test
+#H0. la muestra tiene una distribución normal
+#Ha. la muestra no tiene distribución normal
+#tenemos una pvalue de .8172 no se rechaza la hipotesis nula
+#por lo tanto se acepta que hay normalidad
+#podemos ver la respuesta graficamente con la siuiente fn.
+
+qqnorm(base1$rstudent.modelo, main = "Normal (0,1)")
+
+# se obtiene grafico de dispersión con la normal (0,1)
+qqline (base1$rstudent.modelo)#se traza una linea dentro de la grafica normal
+
+#ahora vamos a revisar la homogeneidad de las varianzas 
+#para revisar la homogeneidad se requiere de una libreria llamada lmtest, debido a que 
+#esta se tiene que aplicar la prueba de Breusch - pagan test
+
+install.packages("lmtest")
+require(lmtest)
+bptest(modelo)
+
+#en esta prueba esperamos que haya homogeneidad de la varianza
+#H0: si hay homogeneidad en las varianzas
+#Ha: no hay homogeneidad en las varianzas
+#en la prueba de bptest obtenemos un p-value de .6108
+#por lo tanto se rechaza la hipotesis nula
+# es decir se acepta con 95% de confianza la H0
+#para eso tenemos que tener un pvalue mayor que .05, por lo que para el modelo
+#se puede decir que hay homogeneidad en las varianzas
+#despues prueba de autocorrelación o independencia
+#en este caso se utiliza la prueba Durbin Watson
+#para esta prueba se utiliza la siguiente fn
+dwtest(modelo, alternative="two.sided")
+
+#H0: no hay autocorrelación en los residuos
+#Ha: hay autocorrelación en los residuos
+#la prube adurbin watson genera un resultado de .9142
+#por lo que no se rechaza la hipotesis nula
+#debido a que tenemos un pvalue mayor que .05... esto quiere decir
+#que no hay autocorrelación en los residuos
+#otra forma de evaluar la prueba de durbin watson es con el valor de
+#durbin watson que se espera que este en el rango de 1.5 a 2.5
+#si esta dentro de este rango se puede decir que no hay autocorrelación en los residuos
+#ahora lo comprobaremos de manera grafica con la fn
+plot(base1$residuals.modelo, pch=112, ylab = "residuales", xlab = "in")
+abline(h=cor(base1$estaturas, base1$ingreso))
+
+#en este caso se puede ver que tenemos una grafica sin relación
+#sin ningun patron por lo que se confirma que no hay autocorrelación
+
+#con los datos obtenidos podemos predecir y analizar los coeficientes
+#definimos adelante bases de datos con limites
+
+limbase1<-seq(min(base1$ingreso), max(base1$ingreso), lenght=10)
+limbase1<-data.frame(limbase1)
+limbase<-predict.lm(modelo, limbase1, interval = "prediction", se.fit = TRUE, data=base1)
+head(limbase$fit)#genera nuevos limites
+#para dibujar los limites
+matplot(limbase1,limbase$fit,type = "l", xlab = "ingreso", ylab = "estatura")
+help(matplot)
