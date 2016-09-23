@@ -1,0 +1,25 @@
+sociodem <- read.dbf ("C://Users//SALA-C21//Desktop//sdemt216.dbf")
+
+fac<-sociodem$FAC
+
+sociodem1<-subset(sociodem, ENT==10, select=c(NAC_ANIO,ING_X_HRS))
+
+sociodem1$NAC_ANIO<-as.numeric(sociodem1$NAC_ANIO)
+
+sociodem1<-subset(sociodem1, NAC_ANIO>1935, select=c(NAC_ANIO,ING_X_HRS))
+
+x<-sociodem1$NAC_ANIO
+
+x<-as.numeric(x)
+
+y<-sociodem1$ING_X_HRS
+
+y<-as.numeric(y)
+
+cor(x,y)
+
+plot(x, y)
+
+# SE REALIZO LA CORRELACIÓN ENTRE TODAS LAS COMBINACIONES DE LAS SIGUIENTES VARIABLES:
+#EDAD, INGESO POR HORA, INGRESO MENSUAL, HORAS TRABAJADAS Y AÑOS DE ESCOLARIDAD DE LAS CUALES NO SE OBTUVO
+#UNA CORRELACIÓN MAYOR A .32 Y EL TIEMPO NO NOS PERMITIO CONTINUAR POR LO QUE DESPUES SUBIREMOS UN NUEVO ARCHIVO
