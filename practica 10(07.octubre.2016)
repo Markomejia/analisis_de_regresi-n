@@ -1,0 +1,35 @@
+capa<-c(4330,5500,5500,4700,5200,5500,4700,5500,5800,5000) 
+calidad<-c(2,3,4,3,4,4,4,5,5,5) 
+precio<-c(190,219,249,249,250,340,289,395,439,525) 
+moch<-data.frame(precio, capa, calidad)
+mod2<-lm(precio~calidad, data = moch)
+
+
+#aplicaremos supuestos para saber si tenemos un buen modelo
+
+moch$ajus<-fitted(mod2)
+moch$resi<-residuals(mod2)
+moch$rstud<-rstudent(mod2)
+
+#ahora probaremos los supuestos
+
+#1.Normalidad
+install.packages("lmtest")
+require(lmtest)
+ks.test(moch$rstud,"pnorm")
+
+#Histogrma
+hist(moch$rstud, xlab = "residuals", main = "Hist residuals")
+
+#el p value para contraste de normalidad
+#es mayor a .05 y el histograma se parece a la disribución normal
+
+#homodgeneidad de varianzas
+bptest(mod2, studentize = FALSE, data = moch)
+
+#como p value es mayor a .05 podemos decir que la varianza se comporta de manera constante a lo 
+#largo de la muestra
+
+dwtest(mod2, alternative = "two.sided", data = moch)
+
+#aceptamos la H0 de que no existe correlación en tre los residuos con un pvalue superior a .05
