@@ -100,7 +100,7 @@ Datamex1[indx] <- lapply(Datamex1[indx], function(x) as.numeric(as.character(x))
 
 cor(Dataarg1,use="everything",method = "pearson")
 
-plot(Dataarg1,pch=109, main="grafico de dirpersión")
+plot(Dataarg1,pch=109, main="grafico de dispersión")
 
 modeloarg<-lm(Life.Exp.Fem~GDP.Cap+Fert.Rate+Mort.Inf.Rate+Pop.Grow+Urb.Pop,Dataarg1)
 
@@ -125,7 +125,7 @@ dwtest(modelo, alternative = "two.sided", data = Dataarg1)
 
 cor(Datamex1,use="everything",method = "pearson")
 
-plot(Datamex1,pch=109, main="grafico de dirpersión")
+plot(Datamex1,pch=109, main="grafico de dispersión")
 
 modelomex<-lm(Life.Exp.Fem~GDP.Cap+Fert.Rate+Mort.Inf.Rate+Pop.Grow+Urb.Pop+Lit.Fem+Lit.Ma,Datamex1)
 
@@ -149,7 +149,7 @@ dwtest(modelo, alternative = "two.sided", data = Datamex1)
 
 cor(Databra1,use="everything",method = "pearson")
 
-plot(Databra1,pch=109, main="grafico de dirpersión")
+plot(Databra1,pch=109, main="grafico de dispersión")
 
 modelobra<-lm(Life.Exp.Fem~GDP.Cap+Fert.Rate+Mort.Inf.Rate+Pop.Grow+Urb.Pop+Lit.Fem+Lit.Ma,Databra1)
 
