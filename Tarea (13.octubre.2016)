@@ -31,7 +31,7 @@ bptest(mod,studentize = F,data = SDM)
 dwtest(mod,alternative = "two.sided",data = SDM)
 
 
-predic1<-predict(mod,basepred,interval = "prediction",se.fit = TRUE,data = SDM)
+predic1<-predict(mod, interval = "prediction",se.fit = TRUE,data = SDM)
 
 head(predic1$fit)
 
