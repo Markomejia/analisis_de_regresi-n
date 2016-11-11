@@ -1,0 +1,54 @@
+setwd("C://Users//Sala-C22//Downloads//Base final")
+GranBaseFinal<-data.frame(read.dbf("pobreza_14.dbf"))
+
+bf <- subset(GranBaseFinal, GranBaseFinal$ss_dir==0)
+
+######pobres######
+bf1 <- subset(bf,bf$pobreza==0)
+###no pobres######
+bf2 <- subset(bf,bf$pobreza==1)
+
+install.packages("questionr")
+require(questionr)
+
+######pobres por sexo#######
+wtd.table(bf1$sexo, weights = bf1$factor)
+
+#####no pobres por sexo######
+wtd.table(bf2$sexo,weights = bf2$factor)
+
+#####pobres por grupo de edad######
+bf1$edad1  <- ifelse(as.numeric(bf1$edad)>= 0 & as.numeric(bf1$edad)<=9,1,
+                    ifelse(as.numeric(bf1$edad)>= 10 & as.numeric(bf1$edad)<=19,2,
+                    ifelse(as.numeric(bf1$edad)>= 20 & as.numeric(bf1$edad)<=29,3,
+                    ifelse(as.numeric(bf1$edad)>= 30 & as.numeric(bf1$edad)<=39,4,
+                    ifelse(as.numeric(bf1$edad)>= 40 & as.numeric(bf1$edad)<=49,5,
+                    ifelse(as.numeric(bf1$edad)>= 50 & as.numeric(bf1$edad)<=59,6,
+                    ifelse(as.numeric(bf1$edad)>= 60 & as.numeric(bf1$edad)<=69,7,
+                    ifelse(as.numeric(bf1$edad)>= 70 & as.numeric(bf1$edad)<=79,8,
+                    ifelse(as.numeric(bf1$edad)>= 80 & as.numeric(bf1$edad)<=89,9,
+                    ifelse(as.numeric(bf1$edad)>= 90 & as.numeric(bf1$edad)<=99,10))))))))))
+
+wtd.table(bf1$edad1,weights = bf1$factor)
+
+##### no pobres por grupo de edad####
+
+bf2$edad1  <- ifelse(as.numeric(bf2$edad)>= 0 & as.numeric(bf2$edad)<=9,1,
+              ifelse(as.numeric(bf2$edad)>= 10 & as.numeric(bf2$edad)<=19,2,
+              ifelse(as.numeric(bf2$edad)>= 20 & as.numeric(bf2$edad)<=29,3,
+              ifelse(as.numeric(bf2$edad)>= 30 & as.numeric(bf2$edad)<=39,4,
+              ifelse(as.numeric(bf2$edad)>= 40 & as.numeric(bf2$edad)<=49,5,
+              ifelse(as.numeric(bf2$edad)>= 50 & as.numeric(bf2$edad)<=59,6,
+              ifelse(as.numeric(bf2$edad)>= 60 & as.numeric(bf2$edad)<=69,7,
+              ifelse(as.numeric(bf2$edad)>= 70 & as.numeric(bf2$edad)<=79,8,
+              ifelse(as.numeric(bf2$edad)>= 80 & as.numeric(bf2$edad)<=89,9,
+              ifelse(as.numeric(bf2$edad)>= 90 & as.numeric(bf2$edad)<=99,10))))))))))
+
+wtd.table(bf2$edad1,weights = bf2$factor)
+
+
+######pobres por nivel educativo#####
+wtd.table(bf1$niv_ed,weights = bf1$factor)
+
+#####no pobres por nivel eduactivo####
+wtd.table(bf2$niv_ed,weights = bf2$factor)
