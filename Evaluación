@@ -6,28 +6,28 @@ solorural<-data.frame(read.spss("solorural.sav"))
 wtd.table(solorural$sex, weights = solorural$fac_mti,na.show = TRUE)
 
 ###Resalutados####
-#hombres mujeres    <NA> 
-#4061217 3800117       0 
+#hombres mujeres   total     <NA> 
+#4061217 3800117  7861334      0 
 
 table(solorural$sex)
 
-#hombres mujeres 
-#9302    8798 
+#hombres mujeres  total
+#9302    8798     18100
 
 
 
 wtd.table(solorural$clase2==1,solorural$sex, weights = solorural$fac_mti,na.show = TRUE)
 
-#       hombres mujeres    <NA>
-#FALSE 3438725 3595147       0
-#TRUE   622492  204970       0
-#<NA>        0       0       0
+#       hombres mujeres     total      <NA>
+#FALSE 3438725 3595147     7033872      0
+#TRUE   622492  204970     827462       0
+#<NA>        0       0       0          0
 
 table(solorural$clase2==1,solorural$sex)
 
-#        hombres mujeres
-#FALSE    7888    8324
-#TRUE     1414     474
+#        hombres mujeres total
+#FALSE    7888    8324   16212
+#TRUE     1414     474   1888
 
 
 
@@ -41,29 +41,35 @@ ocu$edad<- ifelse(as.numeric(ocu$eda)  >= 4 & as.numeric(ocu$eda)<=9,1,
 
 wtd.table(ocu$edad,ocu$sex, weights = ocu$fac_mti, na.show = TRUE)
 
-#      hombres mujeres   <NA>
-#  2     121416   37279      0
-#  3     501076  167691      0
-#  <NA>       0       0      0
+#      hombres mujeres       total     <NA>
+#  2     121416   37279      158695     0
+#  3     501076  167691      668767     0
+#  <NA>       0       0        0         0
 
 
 wtd.table(ocu$sex, ocu$asis, weights = ocu$fac_mti,na.show = TRUE)
 
 
-#         Asiste No Asiste   <NA>
-# hombres 335572    286920      0
-# mujeres 107060     97910      0
-# <NA>         0         0      0
+#         Asiste No Asiste   total    <NA>
+# hombres 335572    286920   622492    0
+# mujeres 107060     97910   204970    0
+# <NA>         0         0      0      0
 
 wtd.table(ocu$tam_hog,ocu$sex, weights = ocu$fac_mti, na.show = TRUE)
 
-#                      hombres mujeres   <NA>
-#  1 a 3 integrantes    55181   25618      0
-#  4 a 5 integrantes   149312   44721      0
-#  6 a 7 intengrantes   65844   21472      0
-#  8 y más              35190    8830      0
-#  <NA>                316965  104329      0
+#                      hombres mujeres  total <NA>
+#  1 a 3 integrantes    55181   25618   80799   0
+#  4 a 5 integrantes   149312   44721   194033  0
+#  6 a 7 intengrantes   65844   21472   87316   0
+#  8 y más              35190    8830   44020   0
+#  <NA>                316965  104329   421294  0
 
+wtd.table(ocupados$sex_jefe,weights = ocupados$fac_mti,na.show = TRUE)
+
+#sexo jefe del hogar			
+#Hombre	327237		
+#Mujer	78931		
+#Total	406168
 
 
 
