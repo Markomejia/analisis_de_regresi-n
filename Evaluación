@@ -72,5 +72,6 @@ wtd.table(ocupados$sex_jefe,weights = ocupados$fac_mti,na.show = TRUE)
 #Total	406168
 
 
+https://www.cubeslam.com/ehekgy
 
 
