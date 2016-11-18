@@ -1,0 +1,121 @@
+setwd("C://Users//Sala-C22//Downloads")
+
+solorural<-data.frame(read.spss("solorural.sav"))
+
+
+wtd.table(solorural$sex, weights = solorural$fac_mti,na.show = TRUE)
+
+###Resalutados####
+#hombres mujeres     
+#4061217 3800117        
+
+table(solorural$sex)
+
+#hombres mujeres 
+#9302    8798 
+
+
+
+wtd.table(solorural$c_ocu==1,solorural$sex, weights = solorural$fac_mti,na.show = TRUE)
+
+#        hombres mujeres    
+#FALSE 4061217 3800117       
+
+
+table(solorural$c_ocu==1,solorural$sex)
+
+#           hombres mujeres
+#   FALSE    9302    8798
+
+
+
+ocu<- subset(solorural,solorural$c_ocu=='ocupado')
+
+
+ocu$edad<- ifelse(as.numeric(ocu$eda)  >= 4 & as.numeric(ocu$eda)<=9,"5 a 9",
+                     ifelse(as.numeric(ocu$eda)  >= 10 & as.numeric(ocu$eda)<=13,"10 a 13",
+                     ifelse(as.numeric(ocu$eda)  >= 14 & as.numeric(ocu$eda)<=17,"14 a 17",
+                     ifelse(as.numeric(ocu$eda)  >= 18 & as.numeric(ocu$eda)<=90,"18 a 90",NA))))
+
+wtd.table(ocu$edad,ocu$sex, weights = ocu$fac_mti, na.show = TRUE)
+
+#          hombres mujeres   
+# 10 a 13  188244   64248      
+# 14 a 17  501076  167691      
+# 5 a 9     44013   17429      
+
+
+
+wtd.table(ocu$sex, ocu$asis, weights = ocu$fac_mti,na.show = TRUE)
+
+
+#           Asiste No Asiste  
+# hombres 438717    294616      
+# mujeres 149306    100062      
+
+
+wtd.table(ocu$tam_hog,ocu$sex, weights = ocu$fac_mti, na.show = TRUE)
+
+#                     hombres mujeres   
+# 1 a 3 integrantes    63239   29580      
+# 4 a 5 integrantes   179982   58618      
+# 6 a 7 intengrantes   74585   27210      
+# 8 y más              38992   10859      
+# <NA>                376535  123101      
+
+#################Segunda Parte#############################################
+
+#t_per~ sex + edad + asis + sex_jefe + escol_jefe + t_apo1 + ocu_jefe
+
+table(ocu$t_per)
+
+#    1    2    3    4 
+# 1615  588   75    1 
+
+#instalar un paquete para recodificar
+install.packages("plyr")
+library(plyr)
+
+#Nueva forma para recodificar una variable#
+ocu$t_per<- revalue(factor(ocu$t_per), c("1"="familia","2"="No familiar","3"="Cuenta Propia", "4"=NA))
+table(ocu$t_per)
+
+#limpiar la base
+table(ocu$sex)
+table(ocu$edad,ocu$eda)
+table(ocu$asis)
+table(ocu$sex_jefe)
+table(ocu$escol_jefe)
+table(ocu$t_apo1)
+table(ocu$ocu_jefe)
+
+ocu$escol_jefe<- revalue(factor(ocu$escol_jefe), c("7"=NA))
+
+wtd.table(ocu$escol_jefe, weights = ocu$fac_mti, na.show = TRUE)
+
+wtd.table(ocu$t_per, weights = ocu$fac_mti, na.show = TRUE)
+
+
+
+###modelo de regresión logistica
+install.packages("nnet")
+require(nnet)
+
+modelo<- multinom(t_per~1, data = ocu,trace=FALSE)
+
+summary(modelo)
+
+modelofinal<- multinom(t_per~sex+edad+asis+sex_jefe+escol_jefe+t_apo1+ocu_jefe,data = ocu,trace=FALSE)
+
+m<-summary(modelofinal,wald = T)
+
+print(m)
+
+######tabla en latex######
+
+install.packages("stargazer")
+require(stargazer)
+
+p<-stargazer (modelofinal, type = 'html', title = "coeficientes", summary=T)
+
+stargazer(modelofinal, type = 'text', title = "regresión logistica",digits = 2,out="C://Users//Sala-C22//Desktop//regresionlogistica.txt")
